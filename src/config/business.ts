@@ -13,7 +13,7 @@ export const BUSINESS = {
   /** Display format; `phoneE164` is the digits-only version for wa.me and tel:. */
   phone: '+212 719 705 808',
   phoneE164: '212719705808',
-  email: 'reservas@tamazirt.example',
+  email: 'Hamza19bouirigue@gmail.com',
 
   /** Where the business operates from, for local SEO. */
   address: {
@@ -24,7 +24,7 @@ export const BUSINESS = {
   },
 
   social: {
-    instagram: 'https://instagram.com/', // PROVISIONAL
+    instagram: 'https://www.instagram.com/hamza_bouirigue',
     facebook: '', // leave empty to hide
     tripadvisor: '',
   },

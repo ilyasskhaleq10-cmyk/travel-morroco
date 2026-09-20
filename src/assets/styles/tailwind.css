@@ -156,6 +156,13 @@
 @theme {
   --color-sand: var(--aw-color-bg-sand);
   --color-sand-border: var(--aw-color-border-sand);
+
+  /*
+   * Same value as the `bg-page` utility, registered as a theme color so it
+   * accepts an opacity modifier (`bg-surface/85`). A plain `@utility` does
+   * not: `bg-page/85` compiles to nothing at all.
+   */
+  --color-surface: var(--aw-color-bg-page);
 }
 
 @utility bg-sand {
