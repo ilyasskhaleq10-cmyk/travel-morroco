@@ -4,16 +4,16 @@
  * placeholders waiting for the real ones.
  */
 export const BUSINESS = {
-  /** PROVISIONAL — working brand name. */
-  name: 'Atlas Nomad',
-  legalName: 'Atlas Nomad Travel',
-  /** Production domain, used for canonical URLs, sitemap and Open Graph. PROVISIONAL. */
-  url: 'https://atlasnomad.example',
+  /** Brand name, as the owner wants it written. */
+  name: 'Tamazirt by Primo',
+  legalName: 'Tamazirt by Primo',
+  /** Production domain, for canonical URLs, sitemap and Open Graph. PROVISIONAL. */
+  url: 'https://tamazirt.example',
 
   /** Display format; `phoneE164` is the digits-only version for wa.me and tel:. */
   phone: '+212 719 705 808',
   phoneE164: '212719705808',
-  email: 'reservas@atlasnomad.example',
+  email: 'reservas@tamazirt.example',
 
   /** Where the business operates from, for local SEO. */
   address: {

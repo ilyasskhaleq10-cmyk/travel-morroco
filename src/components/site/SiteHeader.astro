@@ -5,7 +5,7 @@ import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import LanguagePicker from './LanguagePicker.astro';
 
 import { BUSINESS, whatsappLink } from '~/config/business';
-import { t, path, type Locale } from '~/i18n';
+import { t, path, homeAnchor, type Locale } from '~/i18n';
 
 export interface Props {
   lang: Locale;
@@ -20,10 +20,10 @@ const whatsapp = whatsappLink(d.common.whatsappMessageGeneric);
 
 // Anchors are written absolute so the header works from the tour pages too.
 const links = [
-  { text: d.nav.tours, href: `${home === '/' ? '' : home}/#tours` },
-  { text: d.nav.itineraries, href: `${home === '/' ? '' : home}/#lugares` },
-  { text: d.nav.why, href: `${home === '/' ? '' : home}/#porque` },
-  { text: d.nav.faq, href: `${home === '/' ? '' : home}/#faq` },
+  { text: d.nav.tours, href: homeAnchor('tours', lang) },
+  { text: d.nav.itineraries, href: homeAnchor('lugares', lang) },
+  { text: d.nav.why, href: homeAnchor('porque', lang) },
+  { text: d.nav.faq, href: homeAnchor('faq', lang) },
 ];
 ---
 

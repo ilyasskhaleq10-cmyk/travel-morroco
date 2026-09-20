@@ -6,7 +6,7 @@ import CtaBand from './CtaBand.astro';
 
 import { BUSINESS, whatsappLink } from '~/config/business';
 import { TOURS, getTour } from '~/data/tours';
-import { t, tourPath, path, fillTemplate, type Locale, type TourId } from '~/i18n';
+import { t, tourPath, homeAnchor, fillTemplate, type Locale, type TourId } from '~/i18n';
 
 export interface Props {
   lang: Locale;
@@ -40,7 +40,7 @@ const others = TOURS.filter((item) => item.id !== id);
 
     <div class="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
       <a
-        href={`${path('/', lang) === '/' ? '' : path('/', lang)}/#tours`}
+        href={homeAnchor('tours', lang)}
         class="flex w-fit items-center gap-1.5 text-sm font-medium text-white/80 transition-colors hover:text-white"
       >
         <Icon name="tabler:arrow-left" class="rtl-flip h-4 w-4" aria-hidden="true" />

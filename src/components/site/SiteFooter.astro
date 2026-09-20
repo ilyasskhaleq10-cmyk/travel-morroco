@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 
 import { BUSINESS, whatsappLink } from '~/config/business';
-import { t, path, tourPath, type Locale } from '~/i18n';
+import { t, path, tourPath, homeAnchor, type Locale } from '~/i18n';
 import { TOURS } from '~/data/tours';
 
 export interface Props {
@@ -69,12 +69,12 @@ const social = [
         <h2 class="mb-3 text-sm font-semibold tracking-wide text-heading uppercase">{d.footer.companyTitle}</h2>
         <ul class="space-y-2 text-sm">
           <li>
-            <a href={`${path('/', lang) === '/' ? '' : path('/', lang)}/#porque`} class="text-muted hover:text-primary">
+            <a href={homeAnchor('porque', lang)} class="text-muted hover:text-primary">
               {d.nav.why}
             </a>
           </li>
           <li>
-            <a href={`${path('/', lang) === '/' ? '' : path('/', lang)}/#faq`} class="text-muted hover:text-primary">
+            <a href={homeAnchor('faq', lang)} class="text-muted hover:text-primary">
               {d.nav.faq}
             </a>
           </li>

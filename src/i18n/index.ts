@@ -24,6 +24,13 @@ export const path = (to: string, lang: Locale): string => {
   return clean === '/' ? prefix || '/' : `${prefix}${clean}`;
 };
 
+/**
+ * Link to a section of the home page, valid from any page in the site.
+ * `trailingSlash` is off, so this is `/#tours` in Spanish and `/en#tours`
+ * elsewhere — no slash before the hash, which would cost a redirect.
+ */
+export const homeAnchor = (id: string, lang: Locale): string => `${path('/', lang)}#${id}`;
+
 /** Path of a tour page in a given language, using that language's slug. */
 export const tourPath = (id: TourId, lang: Locale): string => path(`/tours/${t(lang).tours.items[id].slug}`, lang);
 

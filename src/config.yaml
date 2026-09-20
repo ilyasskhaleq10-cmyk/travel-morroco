@@ -1,6 +1,6 @@
 site:
-  name: Atlas Nomad
-  site: 'https://atlasnomad.example'
+  name: Tamazirt by Primo
+  site: 'https://tamazirt.example'
   base: '/'
   trailingSlash: false
 
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata. Per-page titles and descriptions come from src/i18n.
 metadata:
   title:
-    default: Atlas Nomad
-    template: '%s — Atlas Nomad'
+    default: Tamazirt by Primo
+    template: '%s — Tamazirt by Primo'
   description: 'Tours privados de 3 y 6 días por Marruecos desde Marrakech, con conductor profesional.'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Atlas Nomad
+    site_name: Tamazirt by Primo
     images:
       - url: '~/assets/images/marruecos/hero-sahara-amanecer.jpg'
         width: 1200
