@@ -66,12 +66,36 @@ venden mucho más que una foto de archivo. Basta con reemplazar los ficheros
 manteniendo el nombre y borrar la entrada correspondiente de
 `src/data/photo-credits.ts`.
 
-## Desplegar en el VPS
+## Desplegar
+
+### GitHub Pages (lo que se usa ahora, gratis)
+
+`.github/workflows/deploy.yml` compila y publica en cada push a `main`. Para
+que funcione hace falta, una sola vez:
+
+1. El repositorio tiene que ser **público** (Pages en repos privados es de
+   pago).
+2. **Settings → Pages → Source: GitHub Actions**.
+
+El sitio queda en `https://ilyasskhaleq10-cmyk.github.io/travel-morroco`.
+
+Como Pages sirve desde `/<repo>/`, `src/config.yaml` lleva
+`base: '/travel-morroco'`, y `path()` en `src/i18n/index.ts` antepone ese
+prefijo a todos los enlaces internos leyendo `import.meta.env.BASE_URL`.
+`public/.nojekyll` evita que Jekyll se coma la carpeta `_astro` por empezar
+con guion bajo.
+
+### Con dominio propio o en un VPS
+
+Si algún día hay dominio, en `src/config.yaml`: `site` pasa a ser el dominio y
+`base` vuelve a `'/'`. Con eso los enlaces dejan de llevar prefijo solos.
+
+Para un VPS:
 
 ```bash
 npm ci
 npm run build
-rsync -av --delete dist/ usuario@vps:/var/www/viajes-marruecos/
+rsync -av --delete dist/ usuario@vps:/var/www/travel-morroco/
 ```
 
 En `nginx/nginx.conf` hay un server de ejemplo: ajusta `server_name` y `root`.
@@ -80,8 +104,9 @@ false`) y caché larga para `/_astro/`.
 
 ## Pendiente
 
-- Nombre real del negocio, email y dominio (`src/config/business.ts`, todavía
-  con valores de ejemplo). El teléfono y el WhatsApp ya son los reales.
+- Dominio propio: `BUSINESS.url` y `site` en `src/config.yaml` siguen con un
+  valor de ejemplo. Nombre, teléfono, WhatsApp, correo e Instagram ya son los
+  reales.
 - Precio del tour de 3 días de ida y vuelta y del gran tour de 6 días: ahora
   muestran «Precio a consultar». El de Marrakech → Fez está a 260 €.
 - Fotos propias.

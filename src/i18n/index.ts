@@ -15,13 +15,17 @@ export const t = (lang: Locale): Dictionary => DICTIONARIES[lang] ?? DICTIONARIE
 /**
  * Builds an absolute path for a locale. The default locale has no prefix, so
  * `path('/tours/x', 'es')` is `/tours/x` and `path('/tours/x', 'en')` is
- * `/en/tours/x`. `trailingSlash: false` in astro.config, so no trailing slash
- * except on the root.
+ * `/en/tours/x`. `trailingSlash: false`, so no trailing slash except on the
+ * root. Everything is prefixed with the deploy base (empty at a domain root,
+ * `/travel-morroco` on GitHub Pages).
  */
+const BASE = import.meta.env.BASE_URL.replace(/\/+$/, '');
+
 export const path = (to: string, lang: Locale): string => {
   const clean = `/${to.replace(/^\/+|\/+$/g, '')}`;
   const prefix = lang === DEFAULT_LOCALE ? '' : `/${lang}`;
-  return clean === '/' ? prefix || '/' : `${prefix}${clean}`;
+  const rest = clean === '/' ? prefix : `${prefix}${clean}`;
+  return rest === '' ? `${BASE}/` : `${BASE}${rest}`;
 };
 
 /**

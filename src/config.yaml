@@ -1,7 +1,9 @@
 site:
   name: Tamazirt by Primo
-  site: 'https://tamazirt.example'
-  base: '/'
+  # GitHub Pages serves the site from /<repo>/. With a custom domain later,
+  # set `site` to it and `base` back to '/'.
+  site: 'https://ilyasskhaleq10-cmyk.github.io'
+  base: '/travel-morroco'
   trailingSlash: false
 
   googleSiteVerificationId: ~
