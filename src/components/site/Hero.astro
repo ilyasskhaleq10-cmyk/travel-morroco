@@ -1,0 +1,83 @@
+---
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+
+import heroImage from '~/assets/images/marruecos/hero-sahara-amanecer.jpg';
+import { whatsappLink } from '~/config/business';
+import { t, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+---
+
+<section class="relative isolate overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <Image
+      src={heroImage}
+      alt=""
+      layout="cover"
+      loading="eager"
+      fetchpriority="high"
+      widths={[640, 1024, 1600, 2048]}
+      sizes="100vw"
+      format="webp"
+      class="h-full w-full object-cover"
+    />
+    {/* Two scrims: one along the text side, one at the foot for the stats. */}
+    <div class="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10 rtl:bg-gradient-to-l"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/70"></div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-32">
+    <div class="max-w-3xl">
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase backdrop-blur-sm"
+      >
+        <Icon name="tabler:map-pin" class="h-3.5 w-3.5" aria-hidden="true" />
+        {d.hero.badge}
+      </p>
+
+      <h1
+        class="text-shadow-photo mt-5 font-heading text-4xl leading-[1.05] font-semibold text-white sm:text-5xl lg:text-6xl"
+      >
+        {d.hero.title}
+      </h1>
+
+      <p class="text-shadow-photo mt-5 max-w-2xl text-lg text-white/90 md:text-xl">{d.hero.subtitle}</p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="#tours"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-black/20 transition-colors hover:bg-secondary"
+        >
+          {d.hero.primaryCta}
+          <Icon name="tabler:arrow-down" class="h-4 w-4" aria-hidden="true" />
+        </a>
+        <a
+          href={whatsappLink(d.common.whatsappMessageGeneric)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+        >
+          <Icon name="tabler:brand-whatsapp" class="h-5 w-5" aria-hidden="true" />
+          {d.hero.secondaryCta}
+        </a>
+      </div>
+    </div>
+
+    <dl class="mt-14 grid max-w-2xl grid-cols-3 gap-4 border-t border-white/20 pt-6 md:mt-20">
+      {
+        d.hero.stats.map((stat) => (
+          <div>
+            <dt class="text-shadow-photo font-heading text-2xl font-semibold text-white md:text-3xl">{stat.value}</dt>
+            <dd class="mt-1 text-xs text-white/75 md:text-sm">{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

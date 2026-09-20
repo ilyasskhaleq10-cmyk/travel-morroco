@@ -1,0 +1,16 @@
+---
+import SiteLayout from '~/layouts/SiteLayout.astro';
+import CreditsPage from '~/components/site/CreditsPage.astro';
+import { DEFAULT_LOCALE, alternates, t } from '~/i18n';
+
+const lang = DEFAULT_LOCALE;
+const d = t(lang);
+---
+
+<SiteLayout
+  lang={lang}
+  alternates={alternates('credits')}
+  metadata={{ title: d.credits.title, description: d.credits.intro, robots: { index: false, follow: true } }}
+>
+  <CreditsPage lang={lang} />
+</SiteLayout>

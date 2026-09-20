@@ -1,0 +1,147 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import LanguagePicker from './LanguagePicker.astro';
+
+import { BUSINESS, whatsappLink } from '~/config/business';
+import { t, path, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+  /** Same page in every language, for the language picker. */
+  alternates: { lang: Locale; href: string }[];
+}
+
+const { lang, alternates } = Astro.props;
+const d = t(lang);
+const home = path('/', lang);
+const whatsapp = whatsappLink(d.common.whatsappMessageGeneric);
+
+// Anchors are written absolute so the header works from the tour pages too.
+const links = [
+  { text: d.nav.tours, href: `${home === '/' ? '' : home}/#tours` },
+  { text: d.nav.itineraries, href: `${home === '/' ? '' : home}/#lugares` },
+  { text: d.nav.why, href: `${home === '/' ? '' : home}/#porque` },
+  { text: d.nav.faq, href: `${home === '/' ? '' : home}/#faq` },
+];
+---
+
+<aw-site-header>
+  <header
+    class="sticky top-0 z-50 w-full border-b border-sand bg-page/85 backdrop-blur-md supports-[backdrop-filter]:bg-page/75"
+  >
+    <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 md:px-6">
+      <a href={home} class="flex shrink-0 items-center gap-2 font-heading text-lg font-semibold text-heading">
+        <Icon name="tabler:tent" class="h-6 w-6 text-primary" aria-hidden="true" />
+        {BUSINESS.name}
+      </a>
+
+      <nav aria-label={d.nav.tours} class="ms-auto hidden items-center gap-1 lg:flex">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class="rounded-full px-3 py-2 text-sm font-medium text-default transition-colors hover:bg-black/5 hover:text-primary dark:hover:bg-white/10"
+            >
+              {link.text}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="ms-auto flex items-center gap-1 lg:ms-0 lg:gap-2">
+        <LanguagePicker current={lang} links={alternates} label={d.common.languageLabel} class="hidden sm:flex" />
+        <ToggleTheme
+          class="hidden rounded-lg p-2 text-muted transition-colors hover:bg-black/5 hover:text-heading sm:inline-flex dark:hover:bg-white/10"
+          iconClass="w-5 h-5"
+        />
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={d.common.whatsapp}
+          class="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-secondary md:px-4"
+        >
+          <Icon name="tabler:brand-whatsapp" class="h-5 w-5 md:h-4 md:w-4" aria-hidden="true" />
+          <span class="hidden md:inline">WhatsApp</span>
+        </a>
+
+        <button
+          type="button"
+          data-menu-button
+          aria-expanded="false"
+          aria-controls="site-menu"
+          class="rounded-lg p-2 text-heading transition-colors hover:bg-black/5 lg:hidden dark:hover:bg-white/10"
+        >
+          <span class="sr-only">{d.nav.tours}</span>
+          <Icon name="tabler:menu-2" class="h-6 w-6" data-menu-open aria-hidden="true" />
+          <Icon name="tabler:x" class="hidden h-6 w-6" data-menu-close aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+
+    <div id="site-menu" hidden class="border-t border-sand bg-page lg:hidden">
+      <nav class="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
+        {
+          links.map((link) => (
+            <a href={link.href} class="rounded-lg px-3 py-2.5 text-base font-medium text-default hover:bg-sand">
+              {link.text}
+            </a>
+          ))
+        }
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-3 text-base font-semibold text-white"
+        >
+          <Icon name="tabler:brand-whatsapp" class="h-5 w-5" aria-hidden="true" />
+          {d.common.whatsapp}
+        </a>
+        <div class="mt-3 flex items-center justify-between border-t border-sand pt-3">
+          <LanguagePicker current={lang} links={alternates} label={d.common.languageLabel} />
+          <ToggleTheme class="rounded-lg p-2 text-muted hover:bg-black/5 dark:hover:bg-white/10" iconClass="w-5 h-5" />
+        </div>
+      </nav>
+    </div>
+  </header>
+</aw-site-header>
+
+<style>
+  aw-site-header {
+    display: contents;
+  }
+</style>
+
+<script>
+  // The header is re-rendered on every view transition, so the element's
+  // connectedCallback is the right place for the listeners — no astro:page-load
+  // bookkeeping needed.
+  class AwSiteHeader extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector<HTMLButtonElement>('[data-menu-button]');
+      const menu = this.querySelector<HTMLElement>('#site-menu');
+      const openIcon = this.querySelector<HTMLElement>('[data-menu-open]');
+      const closeIcon = this.querySelector<HTMLElement>('[data-menu-close]');
+      if (!button || !menu) return;
+
+      const setOpen = (open: boolean) => {
+        menu.hidden = !open;
+        button.setAttribute('aria-expanded', String(open));
+        openIcon?.classList.toggle('hidden', open);
+        closeIcon?.classList.toggle('hidden', !open);
+      };
+
+      button.addEventListener('click', () => setOpen(menu.hidden));
+      // Anchor links inside the menu don't navigate, so close it by hand.
+      menu.addEventListener('click', (event) => {
+        if ((event.target as HTMLElement).closest('a')) setOpen(false);
+      });
+      // Leaving the mobile breakpoint would otherwise leave it stuck open.
+      window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setOpen(false));
+    }
+  }
+
+  if (!customElements.get('aw-site-header')) customElements.define('aw-site-header', AwSiteHeader);
+</script>

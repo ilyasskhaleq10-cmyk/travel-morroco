@@ -1,0 +1,122 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import { BUSINESS, whatsappLink } from '~/config/business';
+import { t, path, tourPath, type Locale } from '~/i18n';
+import { TOURS } from '~/data/tours';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+const year = new Date().getFullYear();
+
+const social = [
+  { href: BUSINESS.social.instagram, icon: 'tabler:brand-instagram', label: 'Instagram' },
+  { href: BUSINESS.social.facebook, icon: 'tabler:brand-facebook', label: 'Facebook' },
+  { href: BUSINESS.social.tripadvisor, icon: 'tabler:map-pin', label: 'Tripadvisor' },
+].filter((item) => item.href);
+---
+
+<footer class="border-t border-sand bg-sand">
+  <div class="mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-16">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <div class="flex items-center gap-2 font-heading text-xl font-semibold text-heading">
+          <Icon name="tabler:tent" class="h-6 w-6 text-primary" aria-hidden="true" />
+          {BUSINESS.name}
+        </div>
+        <p class="mt-3 max-w-sm text-sm text-muted">{d.footer.about}</p>
+        {
+          social.length > 0 && (
+            <ul class="mt-5 flex gap-2">
+              {social.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    class="inline-flex rounded-lg border border-sand bg-page p-2.5 text-muted transition-colors hover:text-primary"
+                  >
+                    <Icon name={item.icon} class="h-5 w-5" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div class="md:col-span-3">
+        <h2 class="mb-3 text-sm font-semibold tracking-wide text-heading uppercase">{d.footer.toursTitle}</h2>
+        <ul class="space-y-2 text-sm">
+          {
+            TOURS.map((tour) => (
+              <li>
+                <a href={tourPath(tour.id, lang)} class="text-muted transition-colors hover:text-primary">
+                  {d.tours.items[tour.id].shortName}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <h2 class="mb-3 text-sm font-semibold tracking-wide text-heading uppercase">{d.footer.companyTitle}</h2>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href={`${path('/', lang) === '/' ? '' : path('/', lang)}/#porque`} class="text-muted hover:text-primary">
+              {d.nav.why}
+            </a>
+          </li>
+          <li>
+            <a href={`${path('/', lang) === '/' ? '' : path('/', lang)}/#faq`} class="text-muted hover:text-primary">
+              {d.nav.faq}
+            </a>
+          </li>
+          <li>
+            <a href={path(`/${d.credits.slug}`, lang)} class="text-muted hover:text-primary">{d.footer.credits}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <h2 class="mb-3 text-sm font-semibold tracking-wide text-heading uppercase">{d.footer.contactTitle}</h2>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a
+              href={whatsappLink(d.common.whatsappMessageGeneric)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-primary"
+            >
+              <Icon name="tabler:brand-whatsapp" class="h-4 w-4" aria-hidden="true" />
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${BUSINESS.phoneE164}`} class="text-muted transition-colors hover:text-primary" dir="ltr">
+              {BUSINESS.phone}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${BUSINESS.email}`} class="text-muted transition-colors hover:text-primary" dir="ltr">
+              {BUSINESS.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-10 flex flex-col gap-2 border-t border-sand pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {BUSINESS.legalName}. {d.footer.rights}</p>
+      <p>{BUSINESS.address.city}, {BUSINESS.address.countryName}</p>
+    </div>
+  </div>
+</footer>

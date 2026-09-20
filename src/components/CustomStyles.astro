@@ -1,0 +1,66 @@
+---
+// Typefaces come from Astro's native Fonts API (see `fonts` in astro.config.ts
+// and the <Font /> tags in Layout.astro). Fraunces carries the headings, Inter
+// the body text, and Cairo takes over for both when the page is in Arabic,
+// since neither of the other two has Arabic glyphs.
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-fraunces);
+    --aw-font-heading: var(--font-fraunces);
+
+    /* Terracotta of the kasbah walls, with a deeper shade for hover. */
+    --aw-color-primary: rgb(180 74 42);
+    --aw-color-secondary: rgb(140 53 28);
+    /* Atlas blue, for accents that should not compete with the CTAs. */
+    --aw-color-accent: rgb(46 92 138);
+
+    --aw-color-text-heading: rgb(38 27 21);
+    --aw-color-text-default: rgb(56 45 38);
+    --aw-color-text-muted: rgb(56 45 38 / 72%);
+    /* Warm sand instead of pure white: photos sit better on it. */
+    --aw-color-bg-page: rgb(253 250 245);
+    --aw-color-bg-page-dark: rgb(20 16 13);
+
+    /* Sand tone for section bands. */
+    --aw-color-bg-sand: rgb(246 239 229);
+    --aw-color-border-sand: rgb(226 213 196);
+
+    ::selection {
+      background-color: rgb(238 205 170);
+    }
+  }
+
+  .dark {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-fraunces);
+    --aw-font-heading: var(--font-fraunces);
+
+    --aw-color-primary: rgb(224 122 79);
+    --aw-color-secondary: rgb(203 99 58);
+    --aw-color-accent: rgb(124 170 214);
+
+    --aw-color-text-heading: rgb(248 243 236);
+    --aw-color-text-default: rgb(231 222 210);
+    --aw-color-text-muted: rgb(231 222 210 / 70%);
+    --aw-color-bg-page: rgb(20 16 13);
+
+    --aw-color-bg-sand: rgb(31 25 20);
+    --aw-color-border-sand: rgb(58 47 38);
+
+    ::selection {
+      background-color: rgb(120 58 33);
+      color: rgb(253 250 245);
+    }
+  }
+
+  /* Arabic: Cairo covers Arabic and Latin, so it can carry the whole page. */
+  :root:lang(ar),
+  [dir='rtl'] {
+    --aw-font-sans: var(--font-cairo);
+    --aw-font-serif: var(--font-cairo);
+    --aw-font-heading: var(--font-cairo);
+  }
+</style>

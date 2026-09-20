@@ -1,0 +1,40 @@
+---
+import { Icon } from 'astro-icon/components';
+import { t, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+
+const icons = ['tabler:route', 'tabler:message-circle', 'tabler:calendar-check', 'tabler:car'];
+---
+
+<section class="py-16 md:py-24">
+  <div class="mx-auto max-w-7xl px-4 md:px-6">
+    <header class="max-w-3xl">
+      <p class="text-sm font-semibold tracking-wide text-primary uppercase">{d.steps.tagline}</p>
+      <h2 class="mt-2 font-heading text-3xl font-semibold text-heading md:text-4xl">{d.steps.title}</h2>
+      <p class="mt-3 text-lg text-muted">{d.steps.subtitle}</p>
+    </header>
+
+    <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        d.steps.items.map((step, index) => (
+          <li class="relative rounded-2xl border border-sand bg-page p-6">
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Icon name={icons[index]} class="h-5 w-5" aria-hidden="true" />
+            </span>
+            <p class="mt-4 font-heading text-sm font-semibold text-primary" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <h3 class="mt-1 font-heading text-lg font-semibold text-heading">{step.title}</h3>
+            <p class="mt-2 text-sm text-muted">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

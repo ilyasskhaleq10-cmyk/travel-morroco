@@ -1,0 +1,69 @@
+---
+import { BUSINESS } from '~/config/business';
+import { t, tourPath, type Locale, type TourId } from '~/i18n';
+import { getTour } from '~/data/tours';
+
+export interface Props {
+  lang: Locale;
+  /** A tour id emits TouristTrip; otherwise only the agency is described. */
+  tour?: TourId;
+}
+
+const { lang, tour: tourId } = Astro.props;
+const d = t(lang);
+const site = Astro.site ?? new URL(BUSINESS.url);
+
+const agency = {
+  '@type': 'TravelAgency',
+  '@id': new URL('/#agency', site).href,
+  name: BUSINESS.name,
+  description: d.footer.about,
+  url: site.href,
+  telephone: BUSINESS.phone,
+  email: BUSINESS.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: BUSINESS.address.city,
+    addressRegion: BUSINESS.address.region,
+    addressCountry: BUSINESS.address.country,
+  },
+};
+
+const graph: Record<string, unknown>[] = [agency];
+
+if (tourId) {
+  const tour = getTour(tourId);
+  const copy = d.tours.items[tourId];
+  graph.push({
+    '@type': 'TouristTrip',
+    name: copy.name,
+    description: copy.metaDescription,
+    url: new URL(tourPath(tourId, lang), site).href,
+    touristType: 'Leisure',
+    itinerary: {
+      '@type': 'ItemList',
+      numberOfItems: copy.days.length,
+      itemListElement: copy.days.map((day, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: day.title,
+      })),
+    },
+    provider: { '@id': agency['@id'] },
+    ...(tour.price !== null
+      ? {
+          offers: {
+            '@type': 'Offer',
+            price: tour.price,
+            priceCurrency: BUSINESS.currency,
+            availability: 'https://schema.org/InStock',
+          },
+        }
+      : {}),
+  });
+}
+
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

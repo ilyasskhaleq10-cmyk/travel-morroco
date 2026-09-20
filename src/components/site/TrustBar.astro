@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+import { t, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+
+// Icons pair with the four fixed trust points in the dictionary, in order.
+const icons = ['tabler:car', 'tabler:steering-wheel', 'tabler:building-arch', 'tabler:campfire'];
+---
+
+<section class="border-b border-sand bg-sand">
+  <ul class="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:grid-cols-2 md:px-6 lg:grid-cols-4">
+    {
+      d.trust.map((item, index) => (
+        <li class="flex gap-3">
+          <Icon name={icons[index]} class="mt-0.5 h-6 w-6 shrink-0 text-primary" aria-hidden="true" />
+          <div>
+            <h2 class="font-semibold text-heading">{item.title}</h2>
+            <p class="mt-1 text-sm text-muted">{item.text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>

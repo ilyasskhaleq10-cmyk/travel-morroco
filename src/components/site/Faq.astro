@@ -1,0 +1,46 @@
+---
+import { Icon } from 'astro-icon/components';
+import { t, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+---
+
+<section id="faq" class="scroll-mt-20 py-16 md:py-24">
+  <div class="mx-auto max-w-4xl px-4 md:px-6">
+    <header class="max-w-3xl">
+      <p class="text-sm font-semibold tracking-wide text-primary uppercase">{d.faq.tagline}</p>
+      <h2 class="mt-2 font-heading text-3xl font-semibold text-heading md:text-4xl">{d.faq.title}</h2>
+      <p class="mt-3 text-lg text-muted">{d.faq.subtitle}</p>
+    </header>
+
+    <div class="mt-8 divide-y divide-sand border-y border-sand">
+      {
+        d.faq.items.map((item) => (
+          <details class="group py-4">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-4 font-medium text-heading marker:hidden">
+              <span class="font-heading text-lg">{item.q}</span>
+              <Icon
+                name="tabler:plus"
+                class="mt-1 h-5 w-5 shrink-0 text-primary transition-transform duration-200 group-open:rotate-45"
+                aria-hidden="true"
+              />
+            </summary>
+            <p class="mt-3 pe-8 text-muted">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Safari still paints the disclosure triangle without this. */
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

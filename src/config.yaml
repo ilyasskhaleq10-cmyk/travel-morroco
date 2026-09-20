@@ -1,0 +1,44 @@
+site:
+  name: Atlas Nomad
+  site: 'https://atlasnomad.example'
+  base: '/'
+  trailingSlash: false
+
+  googleSiteVerificationId: ~
+
+# Default SEO metadata. Per-page titles and descriptions come from src/i18n.
+metadata:
+  title:
+    default: Atlas Nomad
+    template: '%s — Atlas Nomad'
+  description: 'Tours privados de 3 y 6 días por Marruecos desde Marrakech, con conductor profesional.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Atlas Nomad
+    images:
+      - url: '~/assets/images/marruecos/hero-sahara-amanecer.jpg'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    cardType: summary_large_image
+
+# The site is multilingual; these are only the document defaults, overridden
+# per page by src/layouts/SiteLayout.astro.
+i18n:
+  language: es
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # or "G-XXXXXXXXXX"
+
+ui:
+  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

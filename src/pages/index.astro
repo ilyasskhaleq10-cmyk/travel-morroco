@@ -1,0 +1,18 @@
+---
+import SiteLayout from '~/layouts/SiteLayout.astro';
+import Home from '~/components/site/Home.astro';
+import JsonLd from '~/components/site/JsonLd.astro';
+import { DEFAULT_LOCALE, alternates, t } from '~/i18n';
+
+const lang = DEFAULT_LOCALE;
+const d = t(lang);
+---
+
+<SiteLayout
+  lang={lang}
+  alternates={alternates('home')}
+  metadata={{ title: d.meta.title, description: d.meta.description, ignoreTitleTemplate: false }}
+>
+  <JsonLd slot="head" lang={lang} />
+  <Home lang={lang} />
+</SiteLayout>

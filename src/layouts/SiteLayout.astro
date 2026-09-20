@@ -1,0 +1,46 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import SiteHeader from '~/components/site/SiteHeader.astro';
+import SiteFooter from '~/components/site/SiteFooter.astro';
+
+import { LOCALE_INFO, t, type Locale } from '~/i18n';
+import type { MetaData } from '~/types';
+
+export interface Props {
+  lang: Locale;
+  metadata?: MetaData;
+  /** Same page in every language: drives the picker and the hreflang tags. */
+  alternates: { lang: Locale; href: string }[];
+}
+
+const { lang, metadata, alternates } = Astro.props;
+const d = t(lang);
+const site = Astro.site ?? new URL('https://atlasnomad.example');
+---
+
+<Layout metadata={metadata} lang={lang}>
+  <Fragment slot="head">
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={LOCALE_INFO[alt.lang].hreflang} href={new URL(alt.href, site).href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates[0].href, site).href} />
+    <slot name="head" />
+  </Fragment>
+
+  <a
+    href="#contenido"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+  >
+    {d.common.skipToContent}
+  </a>
+
+  <SiteHeader lang={lang} alternates={alternates} />
+
+  <main id="contenido" class="flex-1">
+    <slot />
+  </main>
+
+  <SiteFooter lang={lang} />
+</Layout>

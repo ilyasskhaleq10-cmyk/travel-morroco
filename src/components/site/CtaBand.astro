@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+
+import ctaImage from '~/assets/images/marruecos/cta-amanecer-dunas.jpg';
+import { BUSINESS, whatsappLink } from '~/config/business';
+import { t, type Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+  /** Prefilled WhatsApp text; defaults to the generic one. */
+  message?: string;
+}
+
+const { lang, message } = Astro.props;
+const d = t(lang);
+---
+
+<section id="contacto" class="relative isolate scroll-mt-20 overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <Image
+      src={ctaImage}
+      alt=""
+      layout="cover"
+      widths={[640, 1024, 1600]}
+      sizes="100vw"
+      format="webp"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <div class="mx-auto max-w-4xl px-4 py-20 text-center md:px-6 md:py-28">
+    <h2 class="text-shadow-photo font-heading text-3xl font-semibold text-white md:text-4xl">{d.cta.title}</h2>
+    <p class="text-shadow-photo mx-auto mt-4 max-w-2xl text-lg text-white/90">{d.cta.subtitle}</p>
+
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <a
+        href={whatsappLink(message ?? d.common.whatsappMessageGeneric)}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-black/25 transition-colors hover:bg-secondary"
+      >
+        <Icon name="tabler:brand-whatsapp" class="h-5 w-5" aria-hidden="true" />
+        {d.cta.button}
+      </a>
+      <a
+        href={`mailto:${BUSINESS.email}`}
+        class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+      >
+        <Icon name="tabler:mail" class="h-5 w-5" aria-hidden="true" />
+        {d.cta.secondary}
+      </a>
+    </div>
+
+    <p class="mt-6 text-sm text-white/70" dir="ltr">{BUSINESS.phone} · {BUSINESS.email}</p>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import SiteLayout from '~/layouts/SiteLayout.astro';
+import TourDetail from '~/components/site/TourDetail.astro';
+import JsonLd from '~/components/site/JsonLd.astro';
+import { TOURS } from '~/data/tours';
+import { DEFAULT_LOCALE, alternates, t, type TourId } from '~/i18n';
+
+export const getStaticPaths = (() =>
+  TOURS.map((tour) => ({
+    params: { slug: t(DEFAULT_LOCALE).tours.items[tour.id].slug },
+    props: { id: tour.id },
+  }))) satisfies GetStaticPaths;
+
+const lang = DEFAULT_LOCALE;
+const { id } = Astro.props as { id: TourId };
+const copy = t(lang).tours.items[id];
+---
+
+<SiteLayout
+  lang={lang}
+  alternates={alternates(id)}
+  metadata={{ title: copy.metaTitle, description: copy.metaDescription }}
+>
+  <JsonLd slot="head" lang={lang} tour={id} />
+  <TourDetail lang={lang} id={id} />
+</SiteLayout>

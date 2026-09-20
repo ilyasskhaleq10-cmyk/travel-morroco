@@ -1,0 +1,27 @@
+---
+import Hero from './Hero.astro';
+import TrustBar from './TrustBar.astro';
+import TourCards from './TourCards.astro';
+import Steps from './Steps.astro';
+import Places from './Places.astro';
+import WhyUs from './WhyUs.astro';
+import Faq from './Faq.astro';
+import CtaBand from './CtaBand.astro';
+
+import type { Locale } from '~/i18n';
+
+export interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+
+<Hero lang={lang} />
+<TrustBar lang={lang} />
+<TourCards lang={lang} />
+<Places lang={lang} />
+<Steps lang={lang} />
+<WhyUs lang={lang} />
+<Faq lang={lang} />
+<CtaBand lang={lang} />
